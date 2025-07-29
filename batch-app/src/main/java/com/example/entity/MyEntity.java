@@ -18,5 +18,6 @@ public class MyEntity {
 
     @Id
     private UUID id;
+    private String description;
 
 }
