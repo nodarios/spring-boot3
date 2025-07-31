@@ -9,6 +9,9 @@ import org.hibernate.event.spi.PostUpdateEventListener;
 import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
 @Slf4j
 @Component
 public class MyEntityLifecycleListener implements PostInsertEventListener, PostUpdateEventListener {
@@ -16,14 +19,22 @@ public class MyEntityLifecycleListener implements PostInsertEventListener, PostU
     @Override
     public void onPostInsert(PostInsertEvent event) {
         if (event.getEntity() instanceof MyEntity myEntity) {
-            log.info("Insert: {} {}", myEntity.getId(), myEntity.getDescription());
+            UUID id = myEntity.getId();
+            String description = myEntity.getDescription();
+            CompletableFuture.runAsync(
+                    () -> log.info("Insert: {} {}", id, description)
+            );
         }
     }
 
     @Override
     public void onPostUpdate(PostUpdateEvent event) {
         if (event.getEntity() instanceof MyEntity myEntity) {
-            log.info("Update: {} {}", myEntity.getId(), myEntity.getDescription());
+            UUID id = myEntity.getId();
+            String description = myEntity.getDescription();
+            CompletableFuture.runAsync(
+                    () -> log.info("Update: {} {}", id, description)
+            );
         }
     }
 
