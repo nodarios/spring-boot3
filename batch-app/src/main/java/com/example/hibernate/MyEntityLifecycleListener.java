@@ -21,8 +21,13 @@ public class MyEntityLifecycleListener implements PostInsertEventListener, PostU
         if (event.getEntity() instanceof MyEntity myEntity) {
             UUID id = myEntity.getId();
             String description = myEntity.getDescription();
+
+            // if going to use db transaction here
+            // pass a task to another thread
+            // or
+            // publish event and then process it with event listener
             CompletableFuture.runAsync(
-                    () -> log.info("Insert: {} {}", id, description)
+                    () -> log.info("Caught insert: {} {}, safe to use db transaction", id, description)
             );
         }
     }
@@ -32,8 +37,13 @@ public class MyEntityLifecycleListener implements PostInsertEventListener, PostU
         if (event.getEntity() instanceof MyEntity myEntity) {
             UUID id = myEntity.getId();
             String description = myEntity.getDescription();
+
+            // if going to use db transaction here
+            // pass a task to another thread
+            // or
+            // publish event and then process it with event listener
             CompletableFuture.runAsync(
-                    () -> log.info("Update: {} {}", id, description)
+                    () -> log.info("Caught update: {} {}, safe to use db transaction", id, description)
             );
         }
     }
